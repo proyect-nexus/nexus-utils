@@ -5,6 +5,10 @@ import { processImage } from './imageProcessor.js';
 const app = express();
 const upload = multer({ storage: multer.memoryStorage() });
 
+app.get('/', (req, res) => {
+  res.status(200).send('Server running');
+});
+
 app.post('/process-image', upload.single('image'), async (req, res) => {
   try {
     if (!req.file) {
