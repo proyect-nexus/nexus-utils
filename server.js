@@ -1,6 +1,7 @@
 import express from 'express';
 import multer from 'multer';
-import { processImage } from './imageProcessor.js';
+import { frontGenerator } from './front.js';
+import { backGenerator } from './back.js';
 
 const app = express();
 const upload = multer({ storage: multer.memoryStorage() });
