@@ -232,7 +232,5 @@ export async function frontGenerator(inputBuffer, title, user, info) {
   return modifiedImage
 }
 
-// This is just to show how the function works.
-// In a real scenario, this would be called by the server with actual image data.
 console.log('processImage function is ready to use.');
 console.log('It takes an image buffer and a title, and returns a processed image buffer.');
