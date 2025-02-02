@@ -1,39 +1,131 @@
 import sharp from 'sharp';
+import path from 'path';
+import fs from 'fs';
 
-export async function frontGenerator(image, title, user, info) {
-  const response = await axios.get(image, { responseType: 'arraybuffer' })
-  const buffer = Buffer.from(response.data, 'binary')
+function wrapText (text, maxLength) {
+  const words = text.split(' ')
+  const lines = []
+  let currentLine = ''
 
+  words.forEach((word) => {
+    if ((currentLine + word).length <= maxLength) {
+      currentLine += (currentLine ? ' ' : '') + word
+    } else {
+      if (currentLine) lines.push(currentLine)
+      currentLine = word
+    }
+  })
+
+  if (currentLine) lines.push(currentLine)
+  return lines
+}
+
+export async function frontGenerator(inputBuffer, title, user, info) {
   const maxLineLength = 25
   const wrappedTitle = wrapText(title, maxLineLength)
 
-
-
   let htmlTitle
   let htmlAuthor
+  let textAnchor, xPosition
 
-  if (info.position === 'bottom-center') {
-    if (wrappedTitle.length === 1) {
-      htmlTitle = `<text x="50%" y="80%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[0]}</text>`
-      htmlAuthor = `<text x="50%" y="85%" font-family="Poppins" font-size="38" fill="${info.color}" text-anchor="middle" dominant-baseline="middle">${user.user_metadata.name || user.email}</text>`
-    } else {
-      htmlTitle = `
-            <text x="50%" y="75%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[0]}</text>
-            <text x="50%" y="80%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[1]}</text>
-        `
-      htmlAuthor = `<text x="50%" y="87%" font-family="Poppins" font-size="38" fill="${info.color}" text-anchor="middle" dominant-baseline="middle">${user.user_metadata.name || user.email}</text>`
-    }
-  } else {
-    if (wrappedTitle.length === 1) {
-      htmlTitle = `<text x="50%" y="15%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[0]}</text>`
-      htmlAuthor = `<text x="50%" y="20%" font-family="Poppins" font-size="38" fill="${info.color}" text-anchor="middle" dominant-baseline="middle">${user.user_metadata.name || user.email}</text>`
-    } else {
-      htmlTitle = `
-            <text x="50%" y="10%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[0]}</text>
-            <text x="50%" y="15%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[1]}</text>
-        `
-      htmlAuthor = `<text x="50%" y="22%" font-family="Poppins" font-size="38" fill="${info.color}" text-anchor="middle" dominant-baseline="middle">${user.user_metadata.name || user.email}</text>`
-    }
+  switch (info.position) {
+    case 'top-left':
+      textAnchor = 'start'
+      xPosition = '7%'
+      if (wrappedTitle.length === 1) {
+        htmlTitle = `<text x="${xPosition}" y="12%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="19%" font-family="Poppins" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+      } else {
+        htmlTitle = `
+          <text x="${xPosition}" y="8%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
+          <text x="${xPosition}" y="14%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="21%" font-family="Poppins" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+      }
+      break
+
+    case 'top-right':
+      textAnchor = 'end'
+      xPosition = '95%'
+      if (wrappedTitle.length === 1) {
+        htmlTitle = `<text x="${xPosition}" y="12%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="19%" font-family="Poppins" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+      } else {
+        htmlTitle = `
+          <text x="${xPosition}" y="8%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
+          <text x="${xPosition}" y="14%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="21%" font-family="Poppins" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+      }
+      break
+
+    case 'top-center':
+      textAnchor = 'middle'
+      xPosition = '50%'
+      if (wrappedTitle.length === 1) {
+        htmlTitle = `<text x="${xPosition}" y="12%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="19%" font-family="Poppins" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+      } else {
+        htmlTitle = `
+          <text x="${xPosition}" y="8%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
+          <text x="${xPosition}" y="14%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="21%" font-family="Poppins" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+      }
+      break
+
+    case 'bottom-left':
+      textAnchor = 'start'
+      xPosition = '7.5%'
+      if (wrappedTitle.length === 1) {
+        htmlTitle = `<text x="${xPosition}" y="85%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="90%" font-family="Poppins" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+      } else {
+        htmlTitle = `
+          <text x="${xPosition}" y="80%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
+          <text x="${xPosition}" y="85%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="90%" font-family="Poppins" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+      }
+      break
+
+    case 'bottom-right':
+      textAnchor = 'end'
+      xPosition = '95%'
+      if (wrappedTitle.length === 1) {
+        htmlTitle = `<text x="${xPosition}" y="85%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="92%" font-family="Poppins" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+      } else {
+        htmlTitle = `
+          <text x="${xPosition}" y="82%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
+          <text x="${xPosition}" y="88%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="94%" font-family="Poppins" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+      }
+      break
+
+    case 'center':
+      textAnchor = 'middle'
+      xPosition = '50%'
+      if (wrappedTitle.length === 1) {
+        htmlTitle = `<text x="${xPosition}" y="50%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="57%" font-family="Poppins" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+      } else {
+        htmlTitle = `
+          <text x="${xPosition}" y="46%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
+          <text x="${xPosition}" y="52%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="59%" font-family="Poppins" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+      }
+      break
+
+    case 'bottom-center':
+    default:
+      textAnchor = 'middle'
+      xPosition = '50%'
+      if (wrappedTitle.length === 1) {
+        htmlTitle = `<text x="${xPosition}" y="85%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="92%" font-family="Poppins" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+      } else {
+        htmlTitle = `
+          <text x="${xPosition}" y="82%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
+          <text x="${xPosition}" y="88%" font-family="Poppins" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="94%" font-family="Poppins" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+      }
   }
 
   const logoPath = path.join(process.cwd(), 'public', 'favicon.svg')
@@ -42,7 +134,7 @@ export async function frontGenerator(image, title, user, info) {
     .resize({ width: 70 })
     .toBuffer()
 
-  const modifiedImage = await sharp(buffer)
+  const modifiedImage = await sharp(inputBuffer)
     .resize(1000, 1250)
     .composite([
       {

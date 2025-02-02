@@ -1,25 +1,48 @@
 import sharp from 'sharp';
+import path from 'path';
+import fs from 'fs';
 
-export async function backGenerator(image, description) {
-    const response = await axios.get(image, { responseType: 'arraybuffer' })
-    const buffer = Buffer.from(response.data, 'binary')
+function wrapText (text, maxLength) {
+  const words = text.split(' ')
+  const lines = []
+  let currentLine = ''
+
+  words.forEach((word) => {
+    if ((currentLine + word).length <= maxLength) {
+      currentLine += (currentLine ? ' ' : '') + word
+    } else {
+      if (currentLine) lines.push(currentLine)
+      currentLine = word
+    }
+  })
+
+  if (currentLine) lines.push(currentLine)
+  return lines
+}
+
+export async function backGenerator(inputBuffer, description, IMAGINS) {
+    const image = sharp(inputBuffer);
+    const metadata = await image.metadata();
   
+    const width = metadata.width;
+    const height = metadata.height
+
     const maxLineLength = 56
     const wrappedTitle = wrapText(description, maxLineLength)
     const wrappedImagins = wrapText(IMAGINS, maxLineLength)
-  
+
     const htmlTitle = wrappedTitle
       .map((line, index) => {
         return `<text x="70" y="${15 + index * 3}%" font-family="Poppins" font-size="32" fill="black" text-anchor="start" dominant-baseline="middle">${line}</text>`
       })
       .join('\n')
-  
+
     const htmlImagins = wrappedImagins
       .map((line, index) => {
         return `<text x="70" y="${20 + (index + wrappedTitle.length) * 3}%" font-family="Poppins" font-size="32" fill="black" text-anchor="start" dominant-baseline="middle">${line}</text>`
       })
       .join('\n')
-  
+
     const htmlOverlay = `
       <svg width="1000" height="1250">
           <style>
@@ -38,14 +61,14 @@ export async function backGenerator(image, description) {
           ${htmlImagins}
       </svg>
     `
-  
+
     const logoPath = path.join(process.cwd(), 'public', 'favicon.svg')
     const logoBuffer = fs.readFileSync(logoPath)
     const resizedLogoBuffer = await sharp(logoBuffer)
       .resize({ width: 70 })
       .toBuffer()
-  
-    const modifiedImage = await sharp(buffer)
+
+    const modifiedImage = await sharp(inputBuffer)
       .resize(1000, 1250)
       .composite([
         {
@@ -61,7 +84,7 @@ export async function backGenerator(image, description) {
         }
       ])
       .toBuffer()
-  
+
     return modifiedImage
 }
 

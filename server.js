@@ -17,7 +17,7 @@ app.post('/process-image-front', upload.single('image'), async (req, res) => {
     }
 
     const title = req.body.title || 'Default Title';
-    const processedImageBuffer = await frontGenerator(req.file.buffer, title, req.body.user, req.body.info);
+    const processedImageBuffer = await frontGenerator(req.file.buffer, title, req.body.user, JSON.parse(req.body.info));
 
     res.set('Content-Type', 'image/jpeg');
     res.send(processedImageBuffer);
