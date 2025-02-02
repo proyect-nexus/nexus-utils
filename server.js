@@ -9,15 +9,26 @@ app.get('/', (req, res) => {
   res.status(200).send('Server running');
 });
 
-app.post('/process-image', upload.single('image'), async (req, res) => {
+app.post('/process-image-front', upload.single('image'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).send('No image file uploaded');
     }
 
     const title = req.body.title || 'Default Title';
-    const processedImageBuffer = await processImage(req.file.buffer, title);
+    const processedImageBuffer = await frontGenerator(req.file.buffer, title, req.body.user, req.body.info);
 
+    res.set('Content-Type', 'image/jpeg');
+    res.send(processedImageBuffer);
+  } catch (error) {
+    console.error('Error processing image:', error);
+    res.status(500).send('Error processing image');
+  }
+});
+
+app.post('/process-image-back', upload.single('image'), async (req, res) => {
+  try {
+    const processedImageBuffer = await backGenerator(req.file.buffer, req.body.description);
     res.set('Content-Type', 'image/jpeg');
     res.send(processedImageBuffer);
   } catch (error) {
