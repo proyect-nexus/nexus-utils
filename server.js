@@ -29,7 +29,7 @@ app.post('/process-image-front', upload.single('image'), async (req, res) => {
 
 app.post('/process-image-back', upload.single('image'), async (req, res) => {
   try {
-    const processedImageBuffer = await backGenerator(req.file.buffer, req.body.description);
+    const processedImageBuffer = await backGenerator(req.file.buffer, req.body.description, req.body.IMAGINS);
     res.set('Content-Type', 'image/jpeg');
     res.send(processedImageBuffer);
   } catch (error) {
