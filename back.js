@@ -33,7 +33,7 @@ export async function backGenerator(inputBuffer, description, IMAGINS) {
 
     const htmlImagins = wrappedImagins
       .map((line, index) => {
-        return `<text x="90" y="${180 + (wrappedTitle.length * 50) + 45 + (index * 50)}" font-family="Poppins" font-size="28" font-weight="500" fill="black" text-anchor="start" dominant-baseline="middle">${line}</text>`
+        return `<text x="90" y="${180 + (wrappedTitle.length * 50) + 40 + (index * 50)}" font-family="Poppins" font-size="28" font-weight="500" fill="black" text-anchor="start" dominant-baseline="middle">${line}</text>`
       })
       .join('\n')
 
@@ -52,7 +52,7 @@ export async function backGenerator(inputBuffer, description, IMAGINS) {
           <rect x="60" y="140" width="900" height="${wrappedTitle.length * 50}" fill="white" fill-opacity="0.6" rx="15" ry="15"></rect>
           ${htmlTitle}
   
-          <rect x="60" y="${140 + wrappedTitle.length * 50 + 25}" width="900" height="${wrappedImagins.length * 50}" fill="white" fill-opacity="0.6" rx="15" ry="15"></rect>
+          <rect x="60" y="${140 + wrappedTitle.length * 50 + 25}" width="900" height="${wrappedImagins.length * 55}" fill="white" fill-opacity="0.6" rx="15" ry="15"></rect>
           ${htmlImagins}
       </svg>
     `
