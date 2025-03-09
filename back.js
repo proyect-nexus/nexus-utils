@@ -84,7 +84,7 @@ export async function backGenerator(inputBuffer, description, IMAGINS) {
         gravity: 'southwest',
         blend: 'over',
         top: 1160,
-        left: 80
+        left: 30
       }
     ])
     .toBuffer();
