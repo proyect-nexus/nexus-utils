@@ -21,10 +21,10 @@ function wrapText (text, maxLength) {
 }
 
 export async function frontGenerator(inputBuffer, title, user, info) {
-  const maxLineLength = 25
+  const maxLineLength = 20
   const wrappedTitle = wrapText(title, maxLineLength)
   const fontFamily = info.fontFamily || 'Poppins'
-  
+
   const fontUrls = {
     'Poppins': {
       regular: 'https://fonts.gstatic.com/s/poppins/v20/pxiEyp8kv8JHgFVrJJfecg.woff2',
@@ -77,12 +77,11 @@ export async function frontGenerator(inputBuffer, title, user, info) {
       bold: 'https://fonts.gstatic.com/s/dancingscript/v24/If2cXTr6YS-zF4S-kcSWSVi_sxjsohD9F50Ruu7B06U3Sup6.woff2'
     }
   }
-  
+
   let htmlTitle
   let htmlAuthor
   let textAnchor, xPosition
 
-  console.log(fontFamily)
 
   switch (info.position) {
     case 'top-left':
@@ -90,12 +89,12 @@ export async function frontGenerator(inputBuffer, title, user, info) {
       xPosition = '7%'
       if (wrappedTitle.length === 1) {
         htmlTitle = `<text x="${xPosition}" y="12%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="19%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="19%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
       } else {
         htmlTitle = `
           <text x="${xPosition}" y="8%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
           <text x="${xPosition}" y="14%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="21%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="21%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
       }
       break
 
@@ -109,7 +108,7 @@ export async function frontGenerator(inputBuffer, title, user, info) {
         htmlTitle = `
           <text x="${xPosition}" y="8%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
           <text x="${xPosition}" y="14%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="21%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="21%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
       }
       break
 
@@ -123,7 +122,7 @@ export async function frontGenerator(inputBuffer, title, user, info) {
         htmlTitle = `
           <text x="${xPosition}" y="8%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
           <text x="${xPosition}" y="14%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="21%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="21%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
       }
       break
 
@@ -132,12 +131,12 @@ export async function frontGenerator(inputBuffer, title, user, info) {
       xPosition = '7.5%'
       if (wrappedTitle.length === 1) {
         htmlTitle = `<text x="${xPosition}" y="85%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="90%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="90%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
       } else {
         htmlTitle = `
           <text x="${xPosition}" y="80%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
           <text x="${xPosition}" y="85%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="90%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="90%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
       }
       break
 
@@ -146,12 +145,12 @@ export async function frontGenerator(inputBuffer, title, user, info) {
       xPosition = '95%'
       if (wrappedTitle.length === 1) {
         htmlTitle = `<text x="${xPosition}" y="85%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="92%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="92%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
       } else {
         htmlTitle = `
           <text x="${xPosition}" y="82%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
           <text x="${xPosition}" y="88%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="94%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="94%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
       }
       break
 
@@ -160,12 +159,12 @@ export async function frontGenerator(inputBuffer, title, user, info) {
       xPosition = '50%'
       if (wrappedTitle.length === 1) {
         htmlTitle = `<text x="${xPosition}" y="50%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="57%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="57%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
       } else {
         htmlTitle = `
           <text x="${xPosition}" y="46%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
           <text x="${xPosition}" y="52%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="59%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="59%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
       }
       break
 
@@ -175,12 +174,12 @@ export async function frontGenerator(inputBuffer, title, user, info) {
       xPosition = '50%'
       if (wrappedTitle.length === 1) {
         htmlTitle = `<text x="${xPosition}" y="85%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="92%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="92%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
       } else {
         htmlTitle = `
           <text x="${xPosition}" y="82%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
           <text x="${xPosition}" y="88%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="94%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}CC" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
+        htmlAuthor = `<text x="${xPosition}" y="94%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
       }
   }
 
