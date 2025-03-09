@@ -36,13 +36,13 @@ export async function backGenerator(inputBuffer, description, IMAGINS) {
 
   const htmlTitle = wrappedTitle
     .map((line, index) => {
-      return `<text x="60" y="${180 + index * 50}" font-family="Poppins" font-size="28" font-weight="500" fill="black" text-anchor="start" dominant-baseline="middle">${escapeXML(line)}</text>`;
+      return `<text x="55" y="${180 + index * 50}" font-family="Poppins" font-size="28" font-weight="500" fill="black" text-anchor="start" dominant-baseline="middle">${escapeXML(line)}</text>`;
     })
     .join('\n');
 
   const htmlImagins = wrappedImagins
     .map((line, index) => {
-      return `<text x="60" y="${180 + (wrappedTitle.length * 50) + 40 + (index * 50)}" font-family="Poppins" font-size="28" font-weight="500" fill="black" text-anchor="start" dominant-baseline="middle">${escapeXML(line)}</text>`;
+      return `<text x="55" y="${180 + (wrappedTitle.length * 50) + 40 + (index * 50)}" font-family="Poppins" font-size="28" font-weight="500" fill="black" text-anchor="start" dominant-baseline="middle">${escapeXML(line)}</text>`;
     })
     .join('\n');
 
@@ -58,10 +58,10 @@ export async function backGenerator(inputBuffer, description, IMAGINS) {
         <filter id="blurFilter" x="0" y="0">
             <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
         </filter>
-        <rect x="45" y="135" width="900" height="${wrappedTitle.length * 60}" fill="white" fill-opacity="0.6" rx="15" ry="15"></rect>
+        <rect x="40" y="135" width="900" height="${wrappedTitle.length * 60}" fill="white" fill-opacity="0.6" rx="15" ry="15"></rect>
         ${htmlTitle}
 
-        <rect x="45" y="${140 + wrappedTitle.length * 50 + 45}" width="900" height="${wrappedImagins.length * 55}" fill="white" fill-opacity="0.6" rx="15" ry="15"></rect>
+        <rect x="40" y="${140 + wrappedTitle.length * 50 + 45}" width="900" height="${wrappedImagins.length * 55}" fill="white" fill-opacity="0.6" rx="15" ry="15"></rect>
         ${htmlImagins}
     </svg>
   `;
