@@ -58,10 +58,10 @@ export async function backGenerator(inputBuffer, description, IMAGINS) {
         <filter id="blurFilter" x="0" y="0">
             <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
         </filter>
-        <rect x="55" y="135" width="900" height="${wrappedTitle.length * 60}" fill="white" fill-opacity="0.6" rx="15" ry="15"></rect>
+        <rect x="45" y="135" width="800" height="${wrappedTitle.length * 60}" fill="white" fill-opacity="0.6" rx="15" ry="15"></rect>
         ${htmlTitle}
 
-        <rect x="55" y="${140 + wrappedTitle.length * 50 + 45}" width="900" height="${wrappedImagins.length * 55}" fill="white" fill-opacity="0.6" rx="15" ry="15"></rect>
+        <rect x="45" y="${140 + wrappedTitle.length * 50 + 45}" width="800" height="${wrappedImagins.length * 55}" fill="white" fill-opacity="0.6" rx="15" ry="15"></rect>
         ${htmlImagins}
     </svg>
   `;
