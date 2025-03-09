@@ -61,7 +61,7 @@ export async function backGenerator(inputBuffer, description, IMAGINS) {
         <rect x="60" y="135" width="900" height="${wrappedTitle.length * 60}" fill="white" fill-opacity="0.6" rx="15" ry="15"></rect>
         ${htmlTitle}
 
-        <rect x="60" y="${140 + wrappedTitle.length * 50 + 25}" width="900" height="${wrappedImagins.length * 55}" fill="white" fill-opacity="0.6" rx="15" ry="15"></rect>
+        <rect x="60" y="${140 + wrappedTitle.length * 50 + 45}" width="900" height="${wrappedImagins.length * 55}" fill="white" fill-opacity="0.6" rx="15" ry="15"></rect>
         ${htmlImagins}
     </svg>
   `;
