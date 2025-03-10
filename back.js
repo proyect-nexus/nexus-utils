@@ -36,7 +36,7 @@ export async function backGenerator(inputBuffer, description, IMAGINS) {
 
   const htmlTitle = wrappedTitle
     .map((line, index) => {
-      return `<text x="55" y="${180 + index * 50}" font-family="Poppins" font-size="28" font-weight="500" fill="black" text-anchor="start" dominant-baseline="middle">${escapeXML(line)}</text>`;
+      return `<text x="55" y="${170 + index * 50}" font-family="Poppins" font-size="28" font-weight="500" fill="black" text-anchor="start" dominant-baseline="middle">${escapeXML(line)}</text>`;
     })
     .join('\n');
 
