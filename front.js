@@ -84,35 +84,7 @@ export async function frontGenerator(inputBuffer, title, user, info) {
 
 
   switch (info.position) {
-    case 'top-left':
-      textAnchor = 'start'
-      xPosition = '7%'
-      if (wrappedTitle.length === 1) {
-        htmlTitle = `<text x="${xPosition}" y="12%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="19%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
-      } else {
-        htmlTitle = `
-          <text x="${xPosition}" y="8%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
-          <text x="${xPosition}" y="14%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="21%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#000000'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
-      }
-      break
-
-    case 'top-right':
-      textAnchor = 'end'
-      xPosition = '95%'
-      if (wrappedTitle.length === 1) {
-        htmlTitle = `<text x="${xPosition}" y="12%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#ffffff'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="19%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#ffffff'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
-      } else {
-        htmlTitle = `
-          <text x="${xPosition}" y="8%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#ffffff'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
-          <text x="${xPosition}" y="14%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#ffffff'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="21%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#ffffff'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
-      }
-      break
-
-    case 'top-center':
+    case 'top':
       textAnchor = 'middle'
       xPosition = '50%'
       if (wrappedTitle.length === 1) {
@@ -123,34 +95,6 @@ export async function frontGenerator(inputBuffer, title, user, info) {
           <text x="${xPosition}" y="8%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#ffffff'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
           <text x="${xPosition}" y="14%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#ffffff'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
         htmlAuthor = `<text x="${xPosition}" y="21%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#ffffff'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
-      }
-      break
-
-    case 'bottom-left':
-      textAnchor = 'start'
-      xPosition = '7.5%'
-      if (wrappedTitle.length === 1) {
-        htmlTitle = `<text x="${xPosition}" y="85%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#ffffff'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="90%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#ffffff'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
-      } else {
-        htmlTitle = `
-          <text x="${xPosition}" y="80%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#ffffff'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
-          <text x="${xPosition}" y="85%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#ffffff'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="90%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#ffffff'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
-      }
-      break
-
-    case 'bottom-right':
-      textAnchor = 'end'
-      xPosition = '95%'
-      if (wrappedTitle.length === 1) {
-        htmlTitle = `<text x="${xPosition}" y="85%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#ffffff'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="92%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#ffffff'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
-      } else {
-        htmlTitle = `
-          <text x="${xPosition}" y="82%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#ffffff'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[0]}</text>
-          <text x="${xPosition}" y="88%" font-family="${fontFamily}" font-size="62" font-weight="bold" fill="${info.color || '#ffffff'}" text-anchor="${textAnchor}" dominant-baseline="middle">${wrappedTitle[1]}</text>`
-        htmlAuthor = `<text x="${xPosition}" y="94%" font-family="${fontFamily}" font-weight="500" font-size="38" fill="${info.color || '#ffffff'}" text-anchor="${textAnchor}" dominant-baseline="middle">${user}</text>`
       }
       break
 
@@ -168,7 +112,7 @@ export async function frontGenerator(inputBuffer, title, user, info) {
       }
       break
 
-    case 'bottom-center':
+    case 'bottom':
     default:
       textAnchor = 'middle'
       xPosition = '50%'
