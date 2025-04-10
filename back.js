@@ -29,44 +29,30 @@ function wrapText(text, maxLength) {
   return lines;
 }
 
-export async function backGenerator(inputBuffer, description, IMAGINS) {
+export async function backGenerator(inputBuffer, description) {
   const maxLineLength = 56;
   const wrappedTitle = wrapText(description, maxLineLength);
-  const wrappedImagins = wrapText(IMAGINS, maxLineLength);
 
   const htmlTitle = wrappedTitle
     .map((line, index) => {
-      return `<text x="55" y="${185 + index * 50}" font-family="Poppins" font-size="28" font-weight="500" fill="black" text-anchor="start" dominant-baseline="middle">${escapeXML(line)}</text>`;
+      return `<text x="55" y="${177 + index * 40}" font-family="Poppins" font-size="28" font-weight="500" fill="black" text-anchor="start" dominant-baseline="middle">${escapeXML(line)}</text>`;
     })
     .join('\n');
 
 
   const htmlOverlay = `
-  <svg width="1000" height="1250" xmlns="http://www.w3.org/2000/svg">
-      <style>
-            @font-face {
-              font-family: 'Poppins';
-              src: url(https://fonts.gstatic.com/s/poppins/v22/pxiByp8kv8JHgFVrLGT9Z1JlFc-K.woff2) format('woff2');
-              font-weight: 500;
-            }
-      </style>
-
-      <defs>
-        <filter id="blurFilter" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="15" />
-          <feComponentTransfer>
-            <feFuncA type="linear" slope="0.4" />
-          </feComponentTransfer>
-        </filter>
-      </defs>
-
-      <rect x="40" y="135" width="900" height="${wrappedTitle.length * 60}" rx="15" ry="15"
-        fill="white" fill-opacity="0.2" filter="url(#blurFilter)" />
-
-      ${htmlTitle}
-  </svg>
-`;
-
+    <svg width="1000" height="1250" xmlns="http://www.w3.org/2000/svg">
+        <style>
+              @font-face {
+                font-family: 'Poppins';
+                src: url(https://fonts.gstatic.com/s/poppins/v22/pxiByp8kv8JHgFVrLGT9Z1JlFc-K.woff2) format('woff2');
+                font-weight: 500;
+              }
+        </style>
+        <rect x="40" y="135" width="900" height="${wrappedTitle.length * 50}" fill="white" fill-opacity="0.6" rx="15" ry="15"></rect>
+        ${htmlTitle}
+    </svg>
+  `;
 
   const logoPath = path.join(process.cwd(), 'public', 'favicon.svg');
   const logoBuffer = fs.readFileSync(logoPath);
